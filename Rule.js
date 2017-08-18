@@ -116,6 +116,3 @@ Rule.prototype = Object.create({}, {
 	}}
 
 });
-
-
-module.exports = DataTable;
