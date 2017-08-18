@@ -69,7 +69,7 @@ Rule.prototype = Object.create({}, {
 
 		if (this.reconstruction === undefined) return match;
 
-		return this.reconstruct(this.reconstruction, match):
+		return this.reconstruct(this.reconstruction, match);
 
 	}},
 
