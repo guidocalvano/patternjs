@@ -82,5 +82,5 @@ s.apply({a: 'iets', b: [1, 4]});
 {"henk":"iets","truus":{"greet":[4,1],"jan":"iets"},"harrie":2,"freddie":false,"rudy":null,"lars":null}
 */
 
-(typeof module !== "undefined" ) && module && module.exports && module.exports = DataTable;
+(typeof module !== "undefined" ) && module && module.exports && (module.exports = DataTable);
 
