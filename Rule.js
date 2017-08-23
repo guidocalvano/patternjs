@@ -31,7 +31,7 @@ Rule.prototype = Object.create({}, {
 			case 'object':
 				Object.keys(pattern).map(function(k) {
 
-					o[k] && this.match(pattern[k], o[k], match);
+					(o[k] !== undefined) && this.match(pattern[k], o[k], match);
 				}.bind(this));
 				return match;
 			default:
