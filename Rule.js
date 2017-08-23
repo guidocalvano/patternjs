@@ -1,54 +1,3 @@
-function DataTable() {}
-
-DataTable.prototype = Object.create({}, {
-	init: {value: function(data) {
-		this.data = data || [];
-	}},
-	initInterpretation: {value: function(dataSet, interpretation) {
-		this.data = dataSet.map(function(row) {
-			var newRow = {};
-
-			Object.keys(interpretation).map(function(k) {
-				newRow[k] = this.getPath(row, interpretation[k]);
-			}.bind(this));
-		}.bind(this));
-	}},
-	getPath: {value: function(o, path) {
-		var result = o;
-		path.map(function(k) {
-			result = result[k];
-		});
-
-		return result;
-	}},
-	setPath: {value: function(o, path, v) {
-		var cursor = o;
-
-		var lastKey = path[path.length - 1];
-
-		path.map(function(k) {
-			cursor[k] = (k === lastKey) ?
-				v
-				: (cursor[k] || {});
-
-			cursor = cursor[k];
-		});
-	}},
-	restructureAs: {value: function(interpretation) {
-
-		var newDataSet = this.data.map(function(row) {
-			var newRow = {};
-
-			Object.keys(interpretation).map(function(k) {
-				this.setPath(newRow, interpretation[k], row[k]);
-			}.bind(this));
-
-			return newRow;
-		});
-
-		return new DataTable.initInterpretation(this.data, interpretation);
-	}}
-});
 
 
 function Rule() {};
@@ -69,7 +18,7 @@ Rule.prototype = Object.create({}, {
 
 		if (this.reconstruction === undefined) return match;
 
-		return this.reconstruct(this.reconstruction, match):
+		return this.reconstruct(this.reconstruction, match);
 
 	}},
 
@@ -117,5 +66,20 @@ Rule.prototype = Object.create({}, {
 
 });
 
+/*
+// a rule that illustrates why this is useful
+var dataToVector = new Rule().init(
+	{dimensions: {width: 'X', height: 'Y'}, topSpeed: 'Z'},
+	['X', 'Y', 'Z']);
+var data = {model: "Ford T", dimensions: {width: 10, height: 13, length: 23}, topSpeed: 123};
+var vector = dataToVector.apply(data);
+
+// a rule that has pretty much everything but the kitchen sink in it
+var s = new Rule().init({a: 'X', b: ['Y', 'Z']}, {henk: 'X', truus: {greet: ['Z', 'Y'], jan: function() { return 'iets';}}, harrie: 2, freddie: false, rudy: NaN, lars: Infinity}, function(m) {return m['X']}, function(m) {return m.X;});
+// applied to an object
+s.apply({a: 'iets', b: [1, 4]});
+// results in
+{"henk":"iets","truus":{"greet":[4,1],"jan":"iets"},"harrie":2,"freddie":false,"rudy":null,"lars":null}
+*/
 
 module.exports = DataTable;
